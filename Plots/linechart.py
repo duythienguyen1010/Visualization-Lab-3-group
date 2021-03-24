@@ -3,16 +3,16 @@ import plotly.offline as pyo
 import plotly.graph_objs as go
 
 # Load CSV file from Datasets folder
-df = pd.read_csv('../Datasets/CoronaTimeSeries.csv')
-df['Date'] = pd.to_datetime(df['Date'])
+df = pd.read_csv('../Datasets/Weather2014-15.csv')
+df['date'] = pd.to_datetime(df['date'])
 
 # Preparing Data
-data = [go.Scatter(x=df['Date'], y=df['Confirmed'], mode='lines', name='Death')]
+data = [go.Scatter(x=df['date'], y=df['actual_max_temp'], mode='lines', name='month')]
 
 # Preparing layout
-layout = go.Layout(title='Corona Virus Confirmed Cases From 2020-01-22 to'
-                         '2020-03-17', xaxis_title="Date",
-                   yaxis_title="Number of cases")
+layout = go.Layout(title='Actual Max Temperature From July 2014 to '
+                         'May 2015', xaxis_title="Month",
+                   yaxis_title="Temperature")
 
 # Plot the figure and saving in a html file
 fig = go.Figure(data=data, layout=layout)
