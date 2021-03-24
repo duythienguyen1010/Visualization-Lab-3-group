@@ -4,7 +4,7 @@ import plotly.graph_objs as go
 
 df = pd.read_csv('../Datasets/Weather2014-15.csv')
 
-# Creating sum of number of cases group by country column
+# Creating mean, min, max of temperature group by month column
 new_df = df.groupby(['month']).agg(
     {'actual_mean_temp' : 'mean', 'average_min_temp' : 'min', 'average_max_temp' : 'max'}).reset_index()
 
