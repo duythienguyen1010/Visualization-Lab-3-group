@@ -20,5 +20,3 @@ layout = go.Layout(title='Actual Max Temperature From July 2014 to '
 # Plot the figure and saving in a html file
 fig = go.Figure(data=data, layout=layout)
 pyo.plot(fig, filename='linechart.html')
-
-Message #coding
