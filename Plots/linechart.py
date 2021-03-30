@@ -6,8 +6,12 @@ import plotly.graph_objs as go
 df = pd.read_csv('../Datasets/Weather2014-15.csv')
 df['date'] = pd.to_datetime(df['date'])
 
+# Creating sum of number of cases group by country column
+new_df = df.groupby(['month']).agg(
+    {'actual_max_temp' : 'max'}).reset_index()
+
 # Preparing Data
-data = [go.Scatter(x=df['date'], y=df['actual_max_temp'], mode='lines', name='month')]
+data = [go.Scatter(x=new_df['month'], y=new_df['actual_max_temp'], mode='lines', name='month')]
 
 # Preparing layout
 layout = go.Layout(title='Actual Max Temperature From July 2014 to '
