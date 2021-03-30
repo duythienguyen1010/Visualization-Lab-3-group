@@ -12,25 +12,17 @@ df2 = pd.read_csv('../Datasets/Weather2014-15.csv')
 app = dash.Dash()
 
 # Bar chart data
-barchart_df = df1[df1['Country'] == 'US']
-barchart_df = barchart_df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-barchart_df = barchart_df.groupby(['State'])['Confirmed'].sum().reset_index()
-barchart_df = barchart_df.sort_values(by=['Confirmed'], ascending=[False]).head(20)
-data_barchart = [go.Bar(x=barchart_df['State'], y=barchart_df['Confirmed'])]
+# Bar chart data
+barchart_df = df1.sort_values(by=['Total'], ascending=[False]).head(20)
+data_barchart = [go.Bar(x=barchart_df['NOC'], y=barchart_df['Total'])]
 
 # Stack bar chart data
-stackbarchart_df = df1.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-stackbarchart_df['Unrecovered'] = stackbarchart_df['Confirmed'] - stackbarchart_df['Deaths'] - stackbarchart_df[
-    'Recovered']
-stackbarchart_df = stackbarchart_df[(stackbarchart_df['Country'] != 'China')]
-stackbarchart_df = stackbarchart_df.groupby(['Country']).agg(
-    {'Confirmed': 'sum', 'Deaths': 'sum', 'Recovered': 'sum', 'Unrecovered': 'sum'}).reset_index()
-stackbarchart_df = stackbarchart_df.sort_values(by=['Confirmed'], ascending=[False]).head(20).reset_index()
-trace1_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Unrecovered'], name='Under Treatment',
+stackbarchart_df = df1.sort_values(by=['Total'], ascending=[False]).head(20).reset_index()
+trace1_stackbarchart = go.Bar(x=stackbarchart_df['NOC'], y=stackbarchart_df['Gold'], name='Gold Medals',
                               marker={'color': '#CD7F32'})
-trace2_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Recovered'], name='Recovered',
+trace2_stackbarchart = go.Bar(x=stackbarchart_df['NOC'], y=stackbarchart_df['Silver'], name='Silver Medals',
                               marker={'color': '#9EA0A1'})
-trace3_stackbarchart = go.Bar(x=stackbarchart_df['Country'], y=stackbarchart_df['Deaths'], name='Deaths',
+trace3_stackbarchart = go.Bar(x=stackbarchart_df['NOC'], y=stackbarchart_df['Bronze'], name='Bronze Medals',
                               marker={'color': '#FFD700'})
 data_stackbarchart = [trace1_stackbarchart, trace2_stackbarchart, trace3_stackbarchart]
 
@@ -104,24 +96,23 @@ app.layout = html.Div(children=[
     html.Br(),
     html.Hr(style={'color': '#7FDBFF'}),
     html.H3('Bar chart', style={'color': '#df1e56'}),
-    html.Div('This bar chart represent the number of confirmed cases in the first 20 states of the US.'),
+    html.Div('This Bar Chart Represents the Total Number of Medals Won in the Top 20 Countries.'),
     dcc.Graph(id='graph2',
               figure={
                   'data': data_barchart,
-                  'layout': go.Layout(title='Corona Virus Confirmed Cases in The US',
-                                      xaxis={'title': 'States'}, yaxis={'title': 'Number of confirmed cases'})
+                  'layout': go.Layout(title='Total Number of Medals in Top 20 Countries.',
+                                      xaxis={'title': 'NOC'}, yaxis={'title': 'Total Number of Medals'})
               }
               ),
     html.Hr(style={'color': '#7FDBFF'}),
     html.H3('Stack bar chart', style={'color': '#df1e56'}),
     html.Div(
-        'This stack bar chart represent the CoronaVirus deaths, recovered and under treatment of all reported first '
-        '20 countries except China.'),
+        'This Stacked Bar Chart Shows the Division of Medals Won in the Top 20 Countries.'),
     dcc.Graph(id='graph3',
               figure={
                   'data': data_stackbarchart,
-                  'layout': go.Layout(title='Corona Virus Cases in the first 20 country expect China',
-                                      xaxis={'title': 'Country'}, yaxis={'title': 'Number of cases'},
+                  'layout': go.Layout(title='Division in Medals Won in Each Country.',
+                                      xaxis={'title': 'NOC'}, yaxis={'title': 'Medals'},
                                       barmode='stack')
               }
               ),
