@@ -73,26 +73,9 @@ app.layout = html.Div(children=[
             }
             ),
     html.Div('Web dashboard for Data Visualization using Python', style={'textAlign': 'center'}),
-    html.Div('Coronavirus COVID-19 Global Cases -  1/22/2020 to 3/17/2020', style={'textAlign': 'center'}),
+    html.Div('Visualization Lab 3 - ITSC 3155, Spring 2021', style={'textAlign': 'center'}),
     html.Br(),
     html.Br(),
-    html.Hr(style={'color': '#7FDBFF'}),
-    html.H3('Interactive Bar chart', style={'color': '#df1e56'}),
-    html.Div('This bar chart represent the number of confirmed cases in the first 20 countries of selected continent.'),
-    dcc.Graph(id='graph1'),
-    html.Div('Please select a continent', style={'color': '#ef3e18', 'margin': '10px'}),
-    dcc.Dropdown(
-        id='select-continent',
-        options=[
-            {'label': 'Asia', 'value': 'Asia'},
-            {'label': 'Africa', 'value': 'Africa'},
-            {'label': 'Europe', 'value': 'Europe'},
-            {'label': 'North America', 'value': 'North America'},
-            {'label': 'Oceania', 'value': 'Oceania'},
-            {'label': 'South America', 'value': 'South America'}
-        ],
-        value='Europe'
-    ),
     html.Br(),
     html.Hr(style={'color': '#7FDBFF'}),
     html.H3('Bar chart', style={'color': '#df1e56'}),
@@ -162,7 +145,6 @@ app.layout = html.Div(children=[
               }
               )
 ])
-
 
 @app.callback(Output('graph1', 'figure'),
               [Input('select-continent', 'value')])
